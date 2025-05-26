@@ -1,0 +1,959 @@
+:root {
+    --primary-blue: #0366d6;
+    --dark-blue: #024ea1;
+    --sky-blue: #e3f2fd;
+    --gradient-start: #a1c4fd;
+    --gradient-end: #c2e9fb;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    color: #2c3e50;
+}
+
+.glass-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin: 2rem auto;
+    width: 90%;
+    max-width: 1200px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.favorites-control {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: stretch;
+    padding: 0.5rem 0;
+}
+
+.favorites-control .search-btn {
+    position: static;
+    transform: none;
+    height: auto;
+    align-self: center;
+    width: 100%;
+}
+
+.favorite-item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.favorite-content {
+    flex-grow: 1;
+}
+
+.favorite-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.current-favorite {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    margin-right: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.current-favorite:hover {
+    border-color: #ff4757;
+    transform: scale(1.1);
+}
+
+.current-favorite.active {
+    background: #ff4757;
+    border-color: #ff4757;
+}
+
+.current-favorite i {
+    font-size: 14px;
+    color: #ccc;
+    transition: all 0.3s ease;
+}
+
+.current-favorite.active i {
+    color: white;
+}
+
+.favorite-actions {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.favorite-item:hover .favorite-actions {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+}
+
+.label-select {
+    position: relative;
+    width: 100%;
+}
+
+.label-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none;
+}
+
+.label-select:focus-within .label-dropdown,
+.label-select.active .label-dropdown {
+    display: block;
+}
+
+.label-option {
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.label-option:hover {
+    background: var(--sky-blue);
+}
+
+.label-option:first-child {
+    border-radius: 8px 8px 0 0;
+}
+
+.label-option:last-child {
+    border-radius: 0 0 8px 8px;
+}
+
+.neon-menu {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
+    padding: 1rem;
+    margin: 1rem auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.neon-menu ul {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 0;
+    margin: 0;
+}
+
+.neon-menu a {
+    color: var(--primary-blue);
+    padding: 0.8rem 1.5rem;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.neon-menu a:hover {
+    background: var(--primary-blue);
+    color: white;
+    box-shadow: 0 4px 15px rgba(3, 102, 214, 0.3);
+}
+
+.weather-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 1.5rem 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.temperature-display {
+    font-size: 3.5rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin: 1rem 0;
+}
+
+.weather-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.detail-item {
+    background: var(--sky-blue);
+    padding: 1.2rem;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.search-box {
+    position: relative;
+    margin: 1rem auto;
+    padding: 0 15px;
+    width: 100%;
+}
+
+.search-input {
+    width: calc(100% - 120px);
+    padding: 12px 20px;
+    font-size: 16px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 30px;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: 2px solid var(--primary-blue);
+}
+
+.search-btn {
+    position: absolute;
+    width: 100px;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+    background: var(--dark-blue);
+}
+
+.section-hidden {
+    display: none;
+}
+
+.active-section {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.forecast-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.forecast-day {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px;
+    min-width: 120px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.forecast-day:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.weather-icon {
+    font-size: 2.8rem;
+    margin: 1rem 0;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+}
+
+.forecast-details {
+    margin: 1rem 0;
+    font-size: 0.95em;
+    color: #555;
+    line-height: 1.6;
+}
+
+.fa-sun { color: #FFB300; }
+.fa-cloud-sun { color: #78909C; }
+.fa-cloud-rain { color: #546E7A; }
+.fa-cloud { color: #90A4AE; }
+.fa-snowflake { color: #64B5F6; }
+
+.expand-button {
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 0.7rem 1.3rem;
+    border-radius: 20px;
+    margin-top: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.expand-button:hover {
+    background: var(--dark-blue);
+}
+
+.additional-days {
+    display: none;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+    padding: 1rem 0;
+}
+
+.additional-days.active {
+    display: grid;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.error-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #ff4444;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    z-index: 1000;
+    animation: slideIn 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+.weather-icon-small {
+    font-size: 1.4rem;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.humidity-wind-group {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.detail-item {
+    transition: transform 0.3s ease;
+}
+
+.detail-item:hover {
+    transform: translateY(-5px);
+}
+
+.fa-droplet-percent {
+    animation: droplet-pulse 1.5s infinite;
+}
+
+.fa-wind {
+    animation: wind-rotate 3s infinite;
+}
+
+#history .weather-card {
+    position: relative;
+}
+
+#history .search-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    margin: 0;
+    transform: none;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    background: rgba(255,255,255,0.95);
+    border-radius: 10px;
+    position: relative;
+    padding-right: 100px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.history-actions {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.history-item:hover .history-actions {
+    opacity: 1;
+}
+
+.history-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+.history-content {
+    flex-grow: 1;
+}
+
+.history-title {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+.history-item.search { border-left: 4px solid #36d1dc; }
+.history-item.settings { border-left: 4px solid #5b86e5; }
+.history-item.favorite { border-left: 4px solid #ffb300; }
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.history-filters {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.history-filters button {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 1px solid var(--primary-blue);
+    background: white;
+    color: var(--primary-blue);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.history-filters button:hover {
+    background: var(--primary-blue);
+    color: white;
+}
+
+.history-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline; /* Ключевое изменение */
+    margin-bottom: 1.5rem;
+}
+.history-bottom-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+
+    .history-clear-btn:hover {
+        background: #ff0000;
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(255, 0, 0, 0.2);
+    }
+
+    #clearHistoryBtn:hover {
+        background: #ff0000;
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(255, 0, 0, 0.2);
+    }
+
+    #clearHistoryBtn i {
+        font-size: 14px;
+    }
+
+.history-clear-btn {
+    background: #ff4444;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 14px;
+}
+
+.geo-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+}
+
+.toggle-slider {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    background: #ddd;
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.toggle-slider::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.settings-group {
+    margin: 1.5rem 0;
+    padding: 1.2rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.settings-group:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.switch-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.switch-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.switch-slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.switch-container .switch-slider {
+    width: 50px;
+    height: 26px;
+}
+
+.switch-container .switch-slider:before {
+    width: 20px;
+    height: 20px;
+    left: 3px;
+    bottom: 3px;
+}
+
+.switch-input:checked + .switch-slider {
+    background-color: var(--primary-blue);
+    width: 50px;
+    height: 26px;
+}
+
+.switch-input:checked + .switch-slider:before {
+    transform: translateX(24px);
+}
+
+.switch-input:checked ~ .unit-label {
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+.units-selector {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.unit-label {
+    font-size: 0.9em;
+    color: #666;
+    white-space: nowrap;
+}
+
+.unit-option {
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--primary-blue);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.unit-option:hover {
+    background: var(--sky-blue);
+}
+
+.unit-option.active {
+    background: var(--primary-blue);
+    color: white;
+}
+
+.history-filters button[onclick="filterHistory('geolocation')"] {
+    display: none;
+}
+
+#geolocation:checked + .toggle-slider {
+    background: var(--primary-blue);
+}
+
+#geolocation:checked + .toggle-slider::before {
+    transform: translateX(20px);
+}
+
+.geo-hint {
+    display: block;
+    color: #666;
+    margin-top: 0.5rem;
+    font-size: 0.9em;
+}
+
+.weather-recommendations {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    margin: 20px 0;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.recommendation-card {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.weather-icon-lg {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+}
+
+.recommendation-text h3 {
+    margin: 0 0 15px 0;
+    color: var(--primary-blue);
+    font-size: 1.4em;
+}
+
+@media (max-width: 768px) {
+    .recommendation-card {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+.weather-header {
+    display: flex;
+    gap: 30px;
+    justify-content: space-between; 
+    align-items: flex-start;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.recommendations-sidebar {
+    order: 2;
+    margin-left: auto !important;
+    background: rgba(255,255,255,0.98);
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+    max-width: 320px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    margin-top: 20px;
+}
+
+.temperature-block {
+    order: 1; 
+}
+
+.recommendation-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    background: #f8f9fa;
+}
+
+.recommendation-item i {
+    font-size: 1.2em;
+    color: var(--primary-blue);
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.recommendations-title {
+    font-size: 1.2em;
+    color: var(--dark-blue);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.recommendation-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.recommendation-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    animation: popIn 0.4s ease;
+}
+
+.location-switcher {
+    margin: 1rem auto;
+    text-align: center;
+    padding: 0.5rem;
+    background: rgba(255,255,255,0.9);
+    border-radius: 15px;
+}
+
+.switch-container {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.9);
+    border-radius: 25px;
+    padding: 8px 15px;
+}
+
+.switch-option {
+    border: none;
+    background: none;
+    padding: 5px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--primary-blue);
+    transition: all 0.3s ease;
+    min-width: 100px;
+    text-align: center;
+}
+
+.switch-option.active {
+    background: var(--primary-blue);
+    color: white;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(3, 102, 214, 0.2);
+}
+
+.switch-divider {
+    margin: 0 5px;
+    color: #666;
+}
+
+hint {
+    color: dimgrey;
+    font-size: 0.7em;
+    margin: 3px 0;
+}
+
+.history-actions .delete-btn {
+    background: #ff4444 !important;
+    padding: 0.4rem 0.8rem !important;
+}
+
+.humidity-icon,
+.wind-icon {
+    font-size: 1.4rem;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.humidity-icon {
+    color: #5b86e5;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+}
+
+.reset-button {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 250px;
+    margin: 10px 0;
+}
+
+.reset-button:hover {
+    background-color: #ff0000;
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+}
+
+/* Общие стили для кнопок удаления (история + избранное) */
+.delete-btn {
+    background: #ff4444 !important;
+    color: white !important;
+    border: none;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+    .delete-btn:hover {
+        background: #ff0000 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(255, 0, 0, 0.2);
+    }
+
+    .delete-btn i {
+        font-size: 12px;
+    }
+
+.history-actions {
+    right: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    gap: 8px; 
+}
+
+.history-item:hover .history-actions {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+}
+
+.history-actions button:not(.delete-btn) {
+    display: none;
+}
+/* Общие стили для всех иконок действий */
+.edit-btn,
+.delete-btn {
+    width: 32px; 
+    height: 32px; 
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px; 
+}
+
+    /* Стили для иконок внутри кнопок */
+    .edit-btn i,
+    .delete-btn i {
+        font-size: 16px !important; 
+        margin: 0 !important;
+    }
+
+
+.edit-btn {
+    background:  !important; 
+}
+
+.delete-btn {
+    background: #ff4444 !important;
+}

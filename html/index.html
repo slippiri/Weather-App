@@ -1,0 +1,303 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Horizon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="glass-container">
+        <nav class="neon-menu">
+            <ul>
+                <li><a href="#" data-section="weather"><i class="fas fa-cloud-sun"></i>Погода</a></li>
+                <li><a href="#" data-section="favorites"><i class="fas fa-star"></i>Избранное</a></li>
+                <li><a href="#" data-section="history"><i class="fas fa-history"></i>История</a></li>
+                <li><a href="#" data-section="settings"><i class="fas fa-cog"></i>Настройки</a></li>
+            </ul>
+        </nav>
+
+        <!-- Секция погоды -->
+        <div id="weather" class="active-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="city" placeholder="Введите город...">
+                <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+
+            <div class="location-switcher" id="locationSwitcher" style="display: none;">
+                <div class="switch-container">
+                    <button class="switch-option active" id="switchFavorite"></button>
+                    <div class="switch-divider">/</div>
+                    <button class="switch-option" id="switchGeolocation"></button>
+                </div>
+            </div>
+
+            <div class="weather-card">
+                <div class="weather-header">
+                    <div class="temperature-block">
+                        <div class="temperature-display" id="temperature">-</div>
+                        <div class="city-name" id="cityName">-</div>
+                    </div>
+
+                    <div class="recommendations-sidebar">
+                        <div class="recommendations-title">
+                            <i class="fas fa-lightbulb"></i> Рекомендации на сегодня
+                        </div>
+                        <div class="recommendation-items" id="recommendations">
+                            <!-- Рекомендации будут здесь -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weather-details">
+                    <div class="detail-item">
+                        <div class="icon-container">
+                            <i class="fas fa-tint humidity-icon"></i>
+                        </div>
+                        <div id="humidity">-</div>
+                        <small>Влажность</small>
+                    </div>
+                    <div class="detail-item">
+                        <div class="icon-container">
+                            <i class="fas fa-wind weather-icon-small" style="color: #5b86e5;"></i>
+                        </div>
+                        <div id="windSpeed">-</div>
+                        <small>Скорость ветра</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weather-card">
+                <h3>
+                    Прогноз на 5 дней
+                    <span style="font-size:14px; color:#666; opacity:0.9; margin-top:4px; display:block">Нажмите ▼ для прогноза 15 дней</span>
+                    <button class="expand-button">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </h3>
+                <div class="forecast-container" id="mainForecast"></div>
+                <div class="additional-days" id="extendedForecast"></div>
+            </div>
+        </div>
+
+        <!-- Избранное -->
+        <div id="favorites" class="section-hidden">
+            <div class="weather-card">
+                <h2><i class="fas fa-heart"></i> Избранное</h2>
+                <div class="favorites-control">
+                    <input type="text" id="favoriteCity" placeholder="Город" class="search-input">
+
+                    <div class="label-select">
+                        <input type="text"
+                               id="favoriteLabel"
+                               placeholder="Выберите метку"
+                               class="search-input"
+                               readonly>
+
+                        <div class="label-dropdown">
+                            <div class="label-option" data-label="Родной город">Родной город</div>
+                            <div class="label-option" data-label="Дача">Дача</div>
+                            <div class="label-option" data-label="Туризм">Туризм</div>
+                            <div class="label-option" data-label="custom">
+                                Другое...
+                                <small style="display: block; color: #666; margin-top: 4px;">Введите свой вариант</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="search-btn" id="addFavoriteBtn">Добавить</button>
+                </div>
+
+                <ul id="favoritesList"></ul>
+                <div style="display: flex; justify-content: flex-end; margin: 10px 0;">
+                    <button class="reset-button" id="clearFavoritesBtn">
+                        <i class="fas fa-trash"></i> Очистить
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- История -->
+        <div id="history" class="section-hidden">
+            <div class="weather-card">
+                <div class="history-header">
+                    <h2><i class="fas fa-history"></i> История</h2>
+                </div>
+
+                <div class="history-filters">
+                    <button data-filter="all">Все</button>
+                    <button data-filter="search">Поиски</button>
+                    <button data-filter="settings">Настройки</button>
+                    <button data-filter="favorite">Избранное</button>
+                </div>
+
+                <ul id="historyList"></ul>
+
+                <div class="history-bottom-controls">
+                    <button class="history-clear-btn" id="clearHistoryBtn">
+                        <i class="fas fa-trash"></i> Очистить историю
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Настройки -->
+        <div id="settings" class="section-hidden">
+            <div class="weather-card">
+                <h2><i class="fas fa-cog"></i> Настройки</h2>
+
+                <div class="settings-group">
+                    <h3>Единицы измерения</h3>
+                    <div class="units-selector">
+                        <div class="unit-option" data-unit="metric">°C / км/ч</div>
+                        <div class="unit-option" data-unit="us">°F / миль/ч</div>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <div class="setting-label">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Переключатель избранное/поиск</span>
+                            <div class="geo-hint">Показывать переключатель между избранным городом и последним поиском</div>
+                        </div>
+                        <label class="switch-container">
+                            <input type="checkbox" id="geolocation" class="switch-input">
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-label">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Рекомендации</span>
+                            <div class="geo-hint">Показывать полезные советы о погоде</div>
+                        </div>
+                        <label class="switch-container">
+                            <input type="checkbox" id="notifications" class="switch-input">
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <h3>Сброс настроек</h3>
+                    <button class="reset-button" id="resetAllBtn">
+                        <i class="fas fa-trash"></i> Сбросить все настройки
+                    </button>
+                    <div class="geo-hint" style="margin-top: 10px;">Сбросит все настройки, очистит историю и избранное</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+    <script>
+        let weatherData = null; // Добавляем переменную для хранения данных о погоде
+
+        document.getElementById('city').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^A-Za-zА-Яа-я\s\-']/g, '');
+        });
+
+        document.getElementById('favoriteCity').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^A-Za-zА-Яа-я\s\-']/g, '');
+        });
+
+        document.getElementById('searchBtn').addEventListener('click', function() {
+            const cityInput = document.getElementById('city');
+        });
+
+        document.getElementById('addFavoriteBtn').addEventListener('click', function() {
+            const favoriteCityInput = document.getElementById('favoriteCity');
+        });
+
+        // Обработчик для кнопки расширенного прогноза
+        document.querySelector('.expand-button').addEventListener('click', function() {
+            const mainForecast = document.getElementById('mainForecast');
+            const buttonIcon = this.querySelector('i');
+            const extended = document.getElementById('extendedForecast');
+
+            if (!extended.classList.contains('active')) {
+                // Показываем все 15 дней
+                if (window.app && window.app.lastWeatherData) {
+                    window.app.weatherCardView.renderForecast(window.app.lastWeatherData, 'mainForecast', 15);
+                }
+                extended.classList.add('active');
+                buttonIcon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+            } else {
+                // Возвращаем 5 дней
+                if (window.app && window.app.lastWeatherData) {
+                    window.app.weatherCardView.renderForecast(window.app.lastWeatherData, 'mainForecast', 5);
+                }
+                extended.classList.remove('active');
+                buttonIcon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+            }
+        });
+
+        // Вспомогательные функции для отображения прогноза
+        function getWeatherIcon(conditions) {
+            const weatherMap = {
+                'rain': 'fa-cloud-rain',
+                'partially cloudy': 'fa-cloud-sun',
+                'overcast': 'fa-cloud',
+                'clear': 'fa-sun',
+                'snow': 'fa-snowflake'
+            };
+            const lowerConditions = conditions.toLowerCase();
+            for (const [key, icon] of Object.entries(weatherMap)) {
+                if (lowerConditions.includes(key)) return icon;
+            }
+            return 'fa-question';
+        }
+
+        function translateWeather(conditions) {
+            const translations = {
+                'rain': 'Дождь',
+                'partially cloudy': 'Переменная облачность',
+                'overcast': 'Пасмурно',
+                'clear': 'Ясно',
+                'snow': 'Снег'
+            };
+            const lowerConditions = conditions.toLowerCase();
+            for (const [key, translation] of Object.entries(translations)) {
+                if (lowerConditions.includes(key)) return translation;
+            }
+            return conditions;
+        }
+
+        // Функция для обновления данных о погоде
+        window.updateWeatherData = function(data) {
+            weatherData = data;
+        };
+
+        // Глобальные функции для работы с избранным
+        window.deleteFavorite = function(city) {
+            if (window.app) {
+                if (confirm(`Вы уверены, что хотите удалить город "${city}" из избранного?`)) {
+                    window.app.favoritesManager.deleteFavorite(city);
+                }
+            }
+        };
+
+        window.editFavorite = function(city) {
+            if (window.app) {
+                const newLabel = prompt('Введите новую метку для города:');
+                if (newLabel) {
+                    window.app.favoritesManager.editFavorite(city, newLabel);
+                }
+            }
+        };
+
+        // Глобальная функция для удаления элемента истории
+        window.deleteHistoryItem = function(id) {
+            if (window.app) {
+                if (confirm('Вы уверены, что хотите удалить этот элемент из истории?')) {
+                    window.app.historyManager.deleteHistoryItem(id);
+                }
+            }
+        };
+    </script>
+</body>
+</html>

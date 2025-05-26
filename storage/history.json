@@ -1,0 +1,6 @@
+﻿namespace KSIScoursework.storage
+{
+    public class history
+    {
+    }
+}
